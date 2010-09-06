@@ -1,0 +1,802 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>4. Primer3 参考手册 &mdash; Primer3 v2.2.2 入门教程 v0.1 beta documentation</title>
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1 beta',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Primer3 v2.2.2 入门教程 v0.1 beta documentation" href="index.html" />
+    <link rel="next" title="hello" href="reference.html" />
+    <link rel="prev" title="3. Primer3 使用" href="usage.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="reference.html" title="hello"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="usage.html" title="3. Primer3 使用"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Primer3 v2.2.2 入门教程 v0.1 beta documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">4. Primer3 参考手册</a><ul>
+<li><a class="reference internal" href="#id1">4.1 输出标签</a></li>
+<li><a class="reference internal" href="#id4">4.2 输入标签</a><ul>
+<li><a class="reference internal" href="#sequence">4.2.1 Sequence 引物输入标签</a></li>
+<li><a class="reference internal" href="#global">4.2.2 Global 引物输入标签</a></li>
+<li><a class="reference internal" href="#id13">4.2.3 &#8220;Sequence&#8221; 探针输入标签</a></li>
+<li><a class="reference internal" href="#id14">4.2.4 &#8220;Global&#8221; 探针输入标签</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="usage.html"
+                        title="previous chapter">3. Primer3 使用</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="reference.html"
+                        title="next chapter">hello</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/tags.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="primer3">
+<h1>4. Primer3 参考手册<a class="headerlink" href="#primer3" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>4.1 输出标签<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>对于每一个通过 stdin 传递给 primer3 的 boulder-io 数据记录，会有一个 boulder-io 输出到 stdout 。这些输出包含所有输入值所含有的信息，加上一组跟随 &#8216;标签/值&#8217; 的子集。除用 ‘星号’ 标记的标签外，以下所列标签都固定返回给一对得到的引物。输出的结果中，第一对引物的标签模式如下：</p>
+<div class="highlight-none"><div class="highlight"><pre>PRIMER_{LEFT,RIGHT,INTERNAL_OLIGO,PAIR}_&lt;tag_name&gt;
+</pre></div>
+</div>
+<p>第二对引物的标签模式添加一个&lt;j&gt;值，其中 &lt;j&gt; 是一个大于0。小于n的整数(其中n是PRIMER_NUM_RETURN的值)，比如第二对引物的 j=1，第三对引物的 j=2，意思类推：</p>
+<div class="highlight-none"><div class="highlight"><pre>PRIMER_{LEFT,RIGHT,INTERNAL_OLIGO,PAIR}_&lt;j&gt;_&lt;tag_name&gt;.
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">下面的描述中i表示起始点，n表示长度，s表示字符串，x表示任意整数，f表示小数。</p>
+</div>
+<p><strong>PRIMER_ERROR=s</strong> (*)</p>
+<p>这个标签描述了当用户输入时，可修正的错误信息。如果没有错误则不显示。</p>
+<p><strong>PRIMER_LEFT=i,n</strong></p>
+<p>上游引物(5&#8217;端)，i是引物在模板上的起始位点，n是引物长度。</p>
+<p><strong>PRIMER_RIGHT=i,n</strong></p>
+<p>下游引物(3&#8217;端)，i是引物在模板上的结束位点，n是引物长度。</p>
+<p><strong>PRIMER_INTERNAL_OLIGO=i,n</strong></p>
+<p>所选的杂交探针。如果PRIMER_PICK_INTERNAL_OLIGO不等于0，程序输出该值。如果程序挑选中间oligo失败，将不会显示该值。i是oligo在模板的起始位点，n是它的长度。</p>
+<p><strong>PRIMER_PRODUCT_SIZE=x</strong></p>
+<p>PCR产物的长度。</p>
+<p><strong>PRIMER_{LEFT,RIGHT,INTERNAL_OLIGO}_EXPLAIN=s</strong> (*)</p>
+<p>此标签值为一个选择引物时，得到单 oligo 的可能性统计结果的字符串。</p>
+<p>例如：</p>
+<div class="highlight-none"><div class="highlight"><pre>PRIMER_LEFT_EXPLAIN=considered 62, too many Ns 53, ok 9
+PRIMER_RIGHT_EXPLAIN=considered 62, too many Ns 53, ok 9
+PRIMER_INTERNAL_OLIGO_EXPLAIN=considered 87, too many Ns 39, overlap excluded region 40, ok 8
+</pre></div>
+</div>
+<p>除了 &#8216;considered&#8217; 外，所有的类别均有互斥性。</p>
+<p><strong>PRIMER_PAIR_EXPLAIN=s</strong> (*)</p>
+<p>s 是一组包含挑选引物对统计信息的字符串。比如：</p>
+<div class="highlight-none"><div class="highlight"><pre>PRIMER_PAIR_EXPLAIN=considered 81, unacceptable product size 49, no internal oligo 32, ok 0
+</pre></div>
+</div>
+<p>除了 &#8216;considered&#8217; 外，所有的类别均有互斥性。在某些情况下，程序会在某条引物违反限制条件之前就检测到。 即使 <em>PRIMER_LEFT_EXPLAIN</em>, <em>PRIMER_RIGHT_EXPLAIN</em> 或者 <em>PRIMER_INTERNAL_OLIGO_EXPLAIN</em> 为 &#8216;ok 0&#8217;， <em>PRIMER_PAIR_EXPLAIN</em> 也可能为非considered 0。</p>
+<p><strong>PRIMER_PAIR_PENALTY=f</strong></p>
+<p>这个标签值表明引物对扩增的不利效果，这个值越小表明引物扩增效果越好。一般输出根据这个值来从小到大排序。</p>
+<p><strong>PRIMER_{LEFT,RIGHT,INTERNAL_OLIGO}_PENALTY=f</strong></p>
+<p>引物或者 oligo 对已扩增的抑制作用评分。</p>
+<p><strong>PRIMER_{LEFT,RIGHT,INTERNAL_OLIGO}_SEQUENCE=s</strong></p>
+<p>所得到的引物和 oligo 的序列。所有序列都是 5&#8217;-&gt; 3&#8217; 的。所以下游引物的反义互补序列才与模板匹配。</p>
+<p><strong>PRIMER_{LEFT,RIGHT,INTERNAL_OLIGO}_TM=f</strong></p>
+<p>所选引物或 oligo 的 Tm 值。</p>
+<p><strong>PRIMER_{LEFT,RIGHT,INTERNAL_OLIGO}_GC_PERCENT=f</strong></p>
+<p>所选引物或 oligo 的GC含量。</p>
+<div class="line-block">
+<div class="line"><strong>PRIMER_{LEFT,RIGHT,INTERNAL_OLIGO}_SELF_ANY=f</strong></div>
+<div class="line"><strong>PRIMER_{LEFT,RIGHT,INTERNAL_OLIGO}_SELF_END=f</strong></div>
+</div>
+<p>所选引物或 oligo 的自我互补错配。</p>
+<div class="line-block">
+<div class="line"><strong>PRIMER_PAIR_COMPL_ANY=f</strong></div>
+<div class="line"><strong>PRIMER_PAIR_COMPL_END=f</strong></div>
+</div>
+<p>所选引物之间的互补错配。</p>
+<p><strong>PRIMER_WARNING=s</strong> (*)</p>
+<p>程序提供的警告信息。如果没有警告信息则不显示该标签。</p>
+<p><strong>PRIMER_{LEFT,RIGHT,PAIR}_MISPRIMING_SCORE=f, s</strong></p>
+<p>f 是筛选引物时，针对 <em>PRIMER_MISPRIMING_LIBRARY</em> 库的最大错选分；s 是库文件里的 id 序列号。*PRIMER_PAIR_MISPRIMING_SCORE* 是上下游引物在单个库序列中的错选分数总和</p>
+<p><strong>PRIMER_{LEFT,RIGHT,PAIR}_TEMPLATE_MISPRIMING=f</strong></p>
+<p>与标签 <em>PRIMER_{LEFT,RIGHT,PAIR}_MISPRIMING_SCORE</em> 类似，但是这几个输出标签针对模板序列的错选。比如基因中的重复外显子。为了程序向下兼容，这些标签只有当相应的输入标签被定义后才被打印显示。</p>
+<p><strong>PRIMER_PRODUCT_TM=f</strong></p>
+<p>f 是扩增产物的 Tm 值。根据文献[2]计算获得。只有当输入标签 <em>PRIMER_MAX_PRODUCT_TM</em> 或者 <em>PRIMER_MIN_PRODUCT_TM</em> 被定义后，此标签才会打印输出。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ol class="last arabic simple" start="2">
+<li><a class="reference external" href="http://www.pubmedcentral.nih.gov/articlerender.fcgi?tool=pubmed&amp;pubmedid=2243783">Rychlik W, Spencer WJ and Rhoads RE (1990) &#8220;Optimization of the annealing temperature for DNA amplification in vitro&#8221;, Nucleic Acids Res 18:6409-12</a></li>
+</ol>
+</div>
+<p><strong>PRIMER_PRODUCT_TM_OLIGO_TM_DIFF=f</strong></p>
+<p>f 是产物 Tm 值和更不稳定的引物 Tm 值的差异。只有当定义了标签 <em>PRIMER_MAX_PRODUCT_TM</em> 或 <em>PRIMER_MIN_PRODUCT_TM</em> 后才会被打印到终端。</p>
+<p><strong>PRIMER_PAIR_T_OPT_A=f</strong></p>
+<p>f 是来自方程式[3]的 &#8216;T sub a super OPT&#8217;。 只有当输入标签 <em>PRIMER_MAX_PRODUCT_TM</em> 或 <em>PRIMER_MIN_PRODUCT_TM</em> 被定义后，此标签才会被打印输出。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ol class="last arabic simple" start="3">
+<li><a class="reference external" href="http://www.pubmedcentral.nih.gov/articlerender.fcgi?tool=pubmed&amp;pubmedid=2243783">Rychlik W, Spencer WJ and Rhoads RE (1990) &#8220;Optimization of the annealing temperature for DNA amplification in vitro&#8221;, Nucleic Acids Res 18:6409-12</a></li>
+</ol>
+</div>
+<p><strong>PRIMER_INTERNAL_OLIGO_MISHYB_SCORE=f, s</strong></p>
+<p>f 是筛选引物时，针对 PRIMER_INTERNAL_OLIGO_MISHYB_LIBRARY 的最大错误杂交分；s 是库文件里对应的序列 id。</p>
+<p><strong>PRIMER_{LEFT,RIGHT,INTERNAL_OLIGO}_MIN_SEQ_QUALITY=i</strong></p>
+<p>i 是引物或探针序列最小的质量。不要和输出标签 PRIMER_PAIR_QUALITY 搞混。</p>
+<p><strong>PRIMER_{LEFT,RIGHT}_END_STABILITY=f</strong></p>
+<p>f 是引物5个 3&#8217; 端碱基的 delta G 值。</p>
+<p><strong>PRIMER_STOP_CODON_POSITION=i</strong></p>
+<p>i 是 primer3 找到的结束密码子的第一个碱基位置，如果该标签值为 -1 则表示没有找到。只有当输入标签 PRIMER_START_CODON_POSITION 值被自定义后，此标签才会在结果输出中打印。</p>
+</div>
+<div class="section" id="id4">
+<h2>4.2 输入标签<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="sequence">
+<h3>4.2.1 Sequence 引物输入标签<a class="headerlink" href="#sequence" title="Permalink to this headline">¶</a></h3>
+<p><strong>SEQUENCE_ID</strong> (string, default:empty)</p>
+<p>用来在输出时显示的标记符以区别引物所对应的模板。 如果 PRIMER_FILE_FLAG 不等于 0，则必须使用此标签。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">(2.0版本中的MARKER_NAME是同义标签，现在已经废除)</p>
+</div>
+<p><strong>SEQUENCE_TEMPLATE</strong> (nucleotide sequence, default:empty)</p>
+<p>用来设计引物的模板序列。从 5&#8217; -&gt; 3&#8217;，碱基大写或小写都可，所有碱基写在一行，不能用回车换行。</p>
+<p><strong>SEQUENCE_INCLUDED_REGION</strong> (interval list, default:empty)</p>
+<p>挑选序列中一段子区域作为设计引物的模板。标签值的格式：</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">&lt;start&gt;,&lt;length&gt;</p>
+</div>
+<p>&lt;start&gt; 是定义的起始位点，&lt;length&gt; 是从该位点起的序列长度。</p>
+<p><strong>SEQUENCE_TARGET</strong> (interval list, default:empty)</p>
+<p>如果多个区域被定义作为重点扩增位点，则至少其中一个区域作为引物筛选区。多个排除区段可用空格区分。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">&lt;start&gt;,&lt;length&gt;</p>
+</div>
+<p>&lt;start&gt; 是定义的起始位点，&lt;length&gt; 是从该位点起的序列长度。为了向下兼容，primer3 可以接受（但忽略）每个元素的拖尾。</p>
+<p><strong>SEQUENCE_EXCLUDED_REGION</strong> (interval list, default:empty)</p>
+<p>定义引物和探针不能在的模板序列位点。多个排除区段可用空格区分。标签值的格式：</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">&lt;start&gt;,&lt;length&gt;</p>
+</div>
+<p>&lt;start&gt; 是定义的起始位点，&lt;length&gt; 是从该位点起的序列长度。 这个标签可以用来排除一些不能用来设计引物的区段。</p>
+<p><strong>SEQUENCE_PRIMER_PAIR_OK_REGION_LIST</strong> (semicolon separated list of integer &#8220;quadruples&#8221;; default:empty)</p>
+<p>这个标签允许你详细的指定引物所在位置的详细信息。</p>
+<p>标签值必须由分号分割。</p>
+<p>&lt;left_start&gt;, &lt;left_length&gt;, &lt;right_start&gt;, &lt;right_length&gt; 结构标志位置与搜索范围。上游引物必须在 &lt;left_start&gt;, &lt;left_length&gt; 指定的范围内,下游引物必须在 &lt;right_start&gt;, &lt;right_length&gt; 指定的范围内。 &lt;left_start&gt; 和 &lt;right_start&gt; 分别定义上下游引物的起始搜索位置， &lt;left_length&gt; 和 &lt;right_length&gt; 分别定义上下游引物从搜索起始位置开始往下游的搜索距离。如果没有指定数值，则不对这个条件做限制。</p>
+<p>比如：</p>
+<p>SEQUENCE_PRIMER_PAIR_OK_REGION_LIST=100,50,300,50 ; 900,60,, ; ,,930,100</p>
+<p>指定引物的条件有3个：</p>
+<p>上游引物从第100个碱基开始往后的50个碱基内查找，并且下游引物从第300个碱基位置开始并往后50个碱基内查找。</p>
+<p>或者</p>
+<p>上游引物在第900个碱基开始往后60个碱基内查找，下游引物随意。</p>
+<p>或者</p>
+<p>下游引物从第930个碱基开始往后100个碱基内查找，上游引物随意。</p>
+<p><strong>SEQUENCE_OVERLAP_JUNCTION_LIST</strong> (space separated integers; default:empty)</p>
+<p>If this list is not empty, then the forward OR the reverse primer must overlap one of these junction points by at least PRIMER_MIN_3_PRIME_OVERLAP_OF_JUNCTION nucleotides at the 3&#8217; end and at least PRIMER_MIN_5_PRIME_OVERLAP_OF_JUNCTION nucleotides at the 5&#8217; end.
+如果列表非空值，
+In more detail: The junction associated with a given position is the space immediately to the right of that position in the template sequence on the strand given as input.</p>
+<p>比如：</p>
+<p>SEQUENCE_OVERLAP_JUNCTION_LIST=20
+# 1-based indexes
+PRIMER_MIN_3_PRIME_OVERLAP_OF_JUNCTION=4</p>
+<p>template: atcataggccatgcctgagc^gctacgact</p>
+<blockquote>
+ok           ...gagc^gcta-3&#8217;  (left primer)
+not ok       ...gagc^gct-3&#8217;   (left primer)
+ok           3&#8217;-ctcg^cgat...  (right pimer)
+not ok        3&#8217;-tcg^cgat...  (right primer)</blockquote>
+<p>PRIMER_MIN_5_PRIME_OVERLAP_OF_JUNCTION=5</p>
+<blockquote>
+ok           5&#8217;-tgagc^gccg...  (left primer)
+not ok        5&#8217;-gagc^gccg...  (left primer)
+ok           ...tgagc^gctac-5&#8217; (right primer)
+not ok       ...tgagc^gcta-5&#8217;  (right primer)</blockquote>
+<p><strong>SEQUENCE_QUALITY</strong> (space separated integers; default:empty)</p>
+<p>该标签的值是由一串空格分割的整数。例如对于序列 ANNTTCA...， <em>SEQUENCE_QUALITY</em> 可能等于 45 10 0 50 30 34 50 67... 数字越大表示该位点可信度越高，反之亦然。这个参数只有在你使用碱基调用程序（比如 <a class="reference external" href="http://www.phrap.org/phredphrapconsed.html#block_phred">phred</a> ）来提供质量信息时才有用。</p>
+<p><strong>PRIMER_START_CODON_POSITION</strong> (int, default:1,000,000)</p>
+<p>该标签目前还处于实验阶段。如果要使用此标签，请仔细查看输出，某些错误的输入可能会导致程序出错。</p>
+<p>这个标签是起始密码子的索引号，可以允许程序选择相应的 ORF 来挑选扩增引物对。例如创建一个 fusion 蛋白的模板。Primer3  会尝试从起始密码子上游或下游寻找一个框内的上游引物。该值可以为负数，表明真实启动子在序列左侧。如果为正值，并且根据参数指定的密码子不是 ATG 则程序返回一个错误信息。当值小于等于 -10^6 表明 Primer3 应忽略这个标签参数。</p>
+<p>Primer3 根据上游引物搜索终止密码子的结果来挑选下游引物。理想条件下，下游引物会在终止密码子上或者会在它下游的位置上。</p>
+<p><strong>SEQUENCE_FORCE_LEFT_START</strong> (int; default:-1)</p>
+<p>强制上游引物的5&#8217;端为指定位置来筛选引物，即使违反其他一些设置，也会优先考虑此选项，因此符合此设置的引物也会被挑选出来。</p>
+<p><strong>SEQUENCE_FORCE_LEFT_END</strong> (int; default:-1)</p>
+<p>强制上游引物的3&#8217;端为指定位置来筛选引物，即使违反其他一些设置，也会优先考虑此选项，因此符合此设置的引物也会被挑选出来。</p>
+<p><strong>SEQUENCE_FORCE_RIGHT_START</strong> (int; default:-1)</p>
+<p>强制下游引物的5&#8217;端为指定位置来筛选引物，即使违反其他一些设置，也会优先考虑此选项，因此符合此设置的引物也会被挑选出来。</p>
+<p><strong>SEQUENCE_FORCE_RIGHT_END</strong> (int; default:-1)</p>
+<p>强制下游引物的3&#8217;端为指定位置来筛选引物，即使违反其他一些设置，也会优先考虑此选项，因此符合此设置的引物也会被挑选出来。</p>
+</div>
+<div class="section" id="global">
+<h3>4.2.2 Global 引物输入标签<a class="headerlink" href="#global" title="Permalink to this headline">¶</a></h3>
+<p><strong>PRIMER_LEFT_INPUT</strong> (nucleotide sequence, default empty)</p>
+<p>定义一条上游引物来设计针对该引物的下游引物和探针。</p>
+<p><strong>PRIMER_RIGHT_INPUT</strong> (nucleotide sequence, default empty)</p>
+<p>定义一条下游引物来设计针对该引物的下游引物和探针。</p>
+<p><strong>PRIMER_COMMENT</strong> (string, optional)</p>
+<p>相当于注释，标签的值不会被用于计算挑选引物。</p>
+<p><strong>COMMENT</strong> (string, optional)</p>
+<p>已被废除，功能由 PRIMER_COMMENT 代替。</p>
+<p><strong>PRIMER_PICK_ANYWAY</strong> (boolean, default 0)</p>
+<p>如果设置为True，保证有引物结果输出，不受以下3个参数限制：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">PRIMER_LEFT_INPUT</span>
+<span class="n">PRIMER_RIGHT_INPUT</span>
+<span class="n">PRIMER_INTERNAL_OLIGO_INPUT</span>
+</pre></div>
+</div>
+<p><strong>PRIMER_MISPRIMING_LIBRARY</strong> (string, optional)</p>
+<p>载入一个核苷酸序列库的文件，以缩小引物挑选范围(如避免重复序列，或可能在一个基因家族，不应扩增基因的序列)，该文件必须是FASTA格式。 如果该指定该参数，则primer3将每一个候选引物与库里的序列进行比对，然后剔除评分低于 PRIMER_MAX_MISPRIMING 设置的引物。 该FASTA格式的文件中，每条序列必须从一个“&gt;“开始标注id。 因为id行的内容是松散限制的，所以primer3解析星号(&#8216;*&#8217;)之后的所有可选的浮点数字。如果ID行不包含星那么 weight 值默认为1.0。 该比对评分系统采用与计算寡核苷酸之间的互补性（如PRIMER_SELF_ANY）相同的算法，除IUB处理/ IUPAC模糊代码。 序列信息从第二行开始直到下一条以&#8217;&gt;&#8217;开始的序列信息之前，或者直到文件结束行。所有的空格和换行会被忽略。字符 &#8216;A&#8217;, &#8216;T&#8217;, &#8216;G&#8217;, &#8216;C&#8217;, &#8216;a&#8217;, &#8216;t&#8217;, &#8216;g&#8217;, &#8216;c&#8217; 和IUB/IUPAC的&#8217;ambiguity&#8217; codes (&#8216;R&#8217;, &#8216;Y&#8217;, &#8216;K&#8217;, &#8216;M&#8217;, &#8216;S&#8217;, &#8216;W&#8217;, &#8216;N&#8217;, &#8216;r&#8217;, &#8216;y&#8217;, &#8216;k&#8217;, &#8216;m&#8217;, &#8216;s&#8217;, &#8216;w&#8217;, &#8216;n&#8217;) 被保留。对序列的长度是没有限制的，但是长度必须大于3。当然，小于10的序列显然也是无意义的，但是程序也会接受该序列并且不报错。</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<ul class="last simple">
+<li>如果序列中含有&#8217;N&#8217;的未知碱基的话，一定要设置：PRIMER_LIB_AMBIGUITY_CODES_CONSENSUS=0</li>
+</ul>
+</div>
+<p>此参数为空值的话表明没有重复库被应用，并且关闭之前指定的库。 <a class="reference external" href="ftp://ncbi.nlm.nih.gov/repository/repbase">Repbase</a> (J. Jurka, A.F.A. Smit, C. Pethiyagoda, and others, 1995-1996) 是一个很好的重复序列库文件。使用前需要现将其转换为FASTA格式的文件。</p>
+<p><strong>PRIMER_LIB_AMBIGUITY_CODES_CONSENSUS</strong> (boolean, default 1)</p>
+<p>If set to 1, treat ambiguity codes as if they were consensus
+codes when matching oligos to mispriming or mishyb
+libraries. For example, if this flag is set, then a C in an
+oligo will be scored as a perfect match to an S in a library
+sequence, as will a G in the oligo. More importantly,
+though, any base in an oligo will be scored as a perfect
+match to an N in the library.  This is very bad if the
+library contains strings of Ns, as no oligo will be legal
+(and it will take a long time to find this out). So unless
+you know for sure that your library does not have runs of Ns
+(or Xs), then set this flag to 0.</p>
+<p><strong>PRIMER_MAX_MISPRIMING</strong> (decimal,9999.99, default 12.00)</p>
+<p>比对 PRIMER_MISPRIMING_LIBRARY 的序列库文件后，允许的最大相似性评分。</p>
+<p><strong>PRIMER_MAX_TEMPLATE_MISPRIMING</strong> (decimal,9999.99, default -1.00)</p>
+<p>模板上最大异常位点相似性评分。这套评分系统除了模板上的模糊碱基不被当作同一种东西外，其他与 <em>PRIMER_MAX_MISPRIMING</em> 一致。</p>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">PRIMER_LIB_AMBIGUITY_CODES_CONSENSUS</p>
+</div>
+<p><strong>PRIMER_PAIR_MAX_MISPRIMING</strong> (decimal,9999.99, default 24.00)</p>
+<p>引物对与 PRIMER_MISPRIMING_LIBRARY 库里任何序列的错配最大允许的分数。库里序列的 weights 不被用来进行这种相似性计算。</p>
+<p><strong>PRIMER_PAIR_MAX_TEMPLATE_MISPRIMING</strong> (decimal,9999.99, default -1.00)</p>
+<p>The maximum allowed summed similarity of both primers to
+ectopic sites in the template. A negative value means do not
+check.  The scoring system is the same as used for
+PRIMER_PAIR_MAX_MISPRIMING, except that an ambiguity code in
+the template is never treated as a consensus (see
+PRIMER_LIB_AMBIGUITY_CODES_CONSENSUS).  Primer3 does not
+check the similarity of hybridization oligos (internal
+oligos) to locations outside of the amplicon.</p>
+<p><strong>PRIMER_PRODUCT_MAX_TM</strong> (float, default 1000000.0)</p>
+<p>扩增产物的最大 Tm值。</p>
+<p>Primer3 计算产物的 Tm 值的方法[4]:</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ol class="last arabic simple" start="4">
+<li><cite>Bolton and McCarthy, PNAS 84:1390 (1962) as presented in Sambrook, Fritsch and Maniatis, Molecular Cloning, p 11.46 (1989, CSHL Press)</cite></li>
+</ol>
+</div>
+<div class="highlight-python"><pre>Tm = 81.5 + 16.6(log10([Na+])) + .41*(%GC) - 600/length
+
+# [Na+] 钠离子浓度， (%GC) 序列的 GC 含量， length 序列长度。</pre>
+</div>
+<p><a class="reference external" href="http://www.gcg.com">GCG</a> 里的引物设计软件也使用了类似的公式，只是最后一个值采用 675.0/length [5]。 这2个公式都采用 Na+ 而不是 K+ 来计算。 根据文献[6] K+ 相当于 0.2 M Na+。 Primer3 用了相同的盐浓度值作为计算引物 Tm 和 oligo Tm 值。如果你打算使用PCR产物做杂交，这里不能提供杂交的 Tm 值。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ol class="last arabic simple" start="5">
+<li><cite>F. Baldino, Jr, M.-F. Chesselet, and M.E. Lewis, Methods in Enzymology 168:766 (1989) eqn (1) on page 766</cite></li>
+<li><cite>J.G. Wetmur, Critical Reviews in BioChem. and Mol. Bio. 26:227 (1991) 50 mM</cite></li>
+</ol>
+</div>
+<p><strong>PRIMER_PRODUCT_MIN_TM</strong> (float, default -1000000.0)</p>
+<p>扩增产物的最小 Tm值。</p>
+<p><strong>PRIMER_EXPLAIN_FLAG</strong> (boolean, default 0)</p>
+<p>如果 flag 不等于0，则产生以下输出标签：</p>
+<div class="line-block">
+<div class="line">PRIMER_LEFT_EXPLAIN</div>
+<div class="line">PRIMER_RIGHT_EXPLAIN</div>
+<div class="line">PRIMER_INTERNAL_OLIGO_EXPLAIN</div>
+</div>
+<p>并且输出记录引物信息的相应文件，并统计各种原因造成的丢弃引物的数量。如果有 -format_output 参数，则信息更为可读。</p>
+<p><strong>PRIMER_PRODUCT_SIZE_RANGE</strong> (size range list, default 100-300)</p>
+<p>扩增产物的大小区间</p>
+<p>可以指定相关值来定义所需要扩增片段的产度，格式如下：</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">PRIMER_PRODUCT_SIZE_RANGE=&lt;x&gt;-&lt;y&gt;</p>
+</div>
+<p>&lt;x&gt;-&lt;y&gt; 表示长度区间。 比如让产物大小在 100-150 bp之间，可以写成 &#8216;100-150&#8217;</p>
+<p>可以同时写多组产物大小的区间，程序会按照顺序优先选择第一个产物长度区间所能设计的引物，只有当这个区间无法找到足够的引物时，才会去下一个区间搜索。注意，这里定义的区间是产物片段长度，也就是包括引物的片段长度。</p>
+<p><strong>PRIMER_PICK_INTERNAL_OLIGO</strong> (boolean, default 0)</p>
+<p>如果此标签值为非0，primer3 会尝试挑选一个杂交探针。如果为了向下兼容，则可以使用 PRIMER_TASK。</p>
+<p><strong>PRIMER_GC_CLAMP</strong> (int, default 0)</p>
+<p>上下游引物在 3&#8217; 端的连续 GC 数量。</p>
+<p><strong>PRIMER_OPT_SIZE</strong> (int, default 20)</p>
+<p>最适引物长度，默认值为20。程序会尽可能选择接近该参数的引物。</p>
+<p><strong>PRIMER_DEFAULT_SIZE</strong> (int, default 20)</p>
+<p>作为与v2版本兼容的标签已经废除，与 <em>PRIMER_OPT_SIZE</em> 同意，</p>
+<p><strong>PRIMER_MIN_SIZE</strong> (int, default 18)</p>
+<p>引物最小长度，默认值为18。该值必须大于0且小于等于PRIMER_MAX_SIZE。</p>
+<p><strong>PRIMER_MAX_SIZE</strong> (int, default 27)</p>
+<p>引物长度最大可接受值。目前该参数不能大于35。</p>
+<p><strong>PRIMER_OPT_TM</strong> (float, default 60.0C)</p>
+<p>引物tm的优化参数。程序会选择尽可能接近该值的引物。tm规则可以由用户自定义。</p>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">PRIMER_TM_SANTALUCIA</p>
+</div>
+<p><strong>PRIMER_MIN_TM</strong> (float, default 57.0C)</p>
+<p>引物tm最小可接受值。</p>
+<p><strong>PRIMER_MAX_TM</strong> (float, default 63.0C)</p>
+<p>引物tm最大可接受值。</p>
+<p><strong>PRIMER_MAX_DIFF_TM</strong> (float, default 100.0C)</p>
+<p>上游和下游引物tm值差异的最大可接受值。</p>
+<p><strong>PRIMER_TM_SANTALUCIA</strong> (int, default 0)</p>
+<p>自定义 Tm 计算方式。(New in v1.1.0, added by Maido Remm and Triinu Koressaar.)</p>
+<p>推荐该值为1，这表明 primer3使用文献[7]的热力学计算值来作为 Tm 计算方式。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ol class="last arabic simple" start="7">
+<li><a class="reference external" href="http://dx.doi.org/10.1073/pnas.95.4.1460">SantaLucia JR (1998) &#8220;A unified view of polymer, dumbbell and oligonucleotide DNA nearest-neighborthermodynamics&#8221;, Proc Natl Acad Sci 95:1460-65</a></li>
+</ol>
+</div>
+<p>如果该值为0，则 primer3 采用以前的计算方式[8],[9]</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ol class="last arabic simple" start="8">
+<li><a class="reference external" href="http://dx.doi.org/10.1073/pnas.83.11.3746">Breslauer KJ, Frank R, Blöcker H and Marky LA (1986) &#8220;Predicting DNA duplex stability from the base sequence&#8221; Proc Natl Acad Sci 83:4746-50</a></li>
+<li><a class="reference external" href="http://www.pubmedcentral.nih.gov/articlerender.fcgi?tool=pubmed&amp;pubmedid=2243783">Rychlik W, Spencer WJ and Rhoads RE (1990) &#8220;Optimization of the annealing temperature for DNA amplification in vitro&#8221;, Nucleic Acids Res 18:6409-12</a></li>
+</ol>
+</div>
+<p>可以用 <em>PRIMER_SALT_CORRECTIONS</em> 来定义 Tm 计算的 salt 纠正方法。例如：</p>
+<div class="line-block">
+<div class="line">PRIMER_TM_SANTALUCIA=1</div>
+<div class="line">PRIMER_SALT_CORRECTIONS=1</div>
+</div>
+<p>引物为： <strong>primer=CGTGACGTGACGGACT</strong></p>
+<p>用默认的 salt 和 DNA 浓度：</p>
+<div class="highlight-none"><div class="highlight"><pre>Tm = deltaH/(deltaS + R*ln(C/4)),
+</pre></div>
+</div>
+<p>R是气体常数(1.987 cal/K mol)，C 是 DNA 浓度</p>
+<div class="highlight-none"><div class="highlight"><pre>deltaH(predicted)
+
+  = dH(CG) + dH(GT) + dH(TG) + .. + dH(CT) + dH(init.w.term.GC) + dH(init.w.term.AT)
+
+  = -10.6 + (-8.4) + (-8.5) + .. + (-7.8) + 0.1 + 2.3
+
+  = -128.8 kcal/mol
+</pre></div>
+</div>
+<p>&#8216;init.w.term GC&#8217; 和 &#8216;init.w.term AT&#8217; 是初始参数 &#8216;initiation with terminal GC&#8217; 和 &#8216;initiation with terminal AT&#8217;</p>
+<div class="highlight-none"><div class="highlight"><pre>deltaS(predicted)
+
+  = dS(CG) + dS(GT) + dS(TG) + .. + dS(CT) + dS(init.w.term.GC) + dS(init.w.term.AT)
+
+  = -27.2 + (-22.4) + (-22.7) + .. + (-21.0) + (-2.8) + 4.1
+
+  = -345.2 cal/k*mol
+
+deltaS(salt corrected)
+
+  = deltaS(predicted) + 0.368*15(NN pairs)*ln(0.05M monovalent cations)
+
+  = -361.736
+
+Tm = -128.800/(-361.736+1.987*ln((5*10^(-8))/4))
+
+   = 323.704 K
+
+Tm(C) = 323.704 - 273.15 = 50.554 C
+</pre></div>
+</div>
+<p><strong>PRIMER_SALT_CONC</strong> (float, default 50.0 mM)</p>
+<p>PCR 反应中毫摩尔单位的单价盐浓度（通常为 KCl）。Primer3 用这个参数来计算引物的 Tm 值。用标签 <em>PRIMER_DIVALENT_CONC</em> 定义双价盐浓度。（在这个例子中你还应该使用标签 PRIMER_DNTP_CONC）</p>
+<p><strong>PRIMER_DIVALENT_CONC</strong> (float, default 0.0 mM)</p>
+<p>PCR 反应中毫摩尔单位的双价盐浓度（通常为 MgCl）。(New in v. 1.1.0, added by Maido Remm and Triinu Koressaar)</p>
+<p>Primer3 转换浓度的公式来自与文献[10].</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ol class="last arabic simple" start="10">
+<li><a class="reference external" href="http://www.clinchem.org/cgi/content/full/47/11/1956">Ahsen von N, Wittwer CT, Schutz E (2001) &#8220;Oligonucleotide Melting Temperatures under PCR Conditions: Nearest-Neighbor Corrections for Mg^(2+), Deoxynucleotide Triphosphate, and Dimethyl Sulfoxide Concentrations with Comparision to Alternative Empirical Formulas&#8221;, Clinical Chemistry 47:1956-61</a></li>
+</ol>
+</div>
+<div class="highlight-none"><div class="highlight"><pre>[Monovalent cations] = [Monovalent cations] + 120*(([divalent cations] - [dNTP])^0.5)
+</pre></div>
+</div>
+<p>根据该公示，dNTP的浓度必须小于双价盐浓度。否则，双价盐浓度的作用效果将不被计算在内。dNTP 浓度要被减掉是因为一些 Mg 离子会与 dNTP 绑定，避免重复计算效果。</p>
+<p><strong>PRIMER_DNTP_CONC</strong> (float, default 0.0 mM)</p>
+<p>PCR 反应中毫摩尔单位的 dNTP 浓度。这个参数只有在 <em>PRIMER_DIVALENT_CONC</em> 标签被使用的情况下才有意义。</p>
+<p><strong>PRIMER_SALT_CORRECTIONS</strong> (int, default 0)</p>
+<p>修正盐浓度公式以计算 Tm 值。(New in v. 1.1.0, added by Maido Remm and Triinu Koressaar)</p>
+<p>建议将其值设置为 1，这样 Primer3会根据文献[11]来修正公式。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ol class="last arabic simple" start="11">
+<li><a class="reference external" href="http://dx.doi.org/10.1073/pnas.95.4.1460">SantaLucia JR (1998) &#8220;A unified view of polymer, dumbbell and oligonucleotide DNA nearest-neighbor thermodynamics&#8221;, Proc Natl Acad Sci 95:1460-65</a></li>
+</ol>
+</div>
+<p>如果值为 0，则 Primer3 使用文献[12]的公式，此公式在一直使用在之前版本的 Primer3。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ol class="last arabic simple" start="12">
+<li><cite>Schildkraut, C, and Lifson, S (1965) &#8220;Dependence of the melting temperature of DNA on salt concentration&#8221;, Biopolymers 3:195-208</cite></li>
+</ol>
+</div>
+<p>如果值为 2，则使用文献[13]的公式。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ol class="last arabic simple" start="13">
+<li><a class="reference external" href="http://dx.doi.org/10.1021/bi034621r">Owczarzy R, You Y, Moreira BG, Manthey JA, Huang L, Behlke MA and Walder JA (2004) &#8220;Effects of sodium ions on DNA duplex oligomers: Improved predictions of melting temperatures&#8221;, Biochemistry 43:3537-54</a></li>
+</ol>
+</div>
+<p><strong>PRIMER_LOWERCASE_MASKING</strong> (int, default 0)</p>
+<p>该标签允许程序智能化设计 masked regions 的引物，并以小写子母表示。(New in v. 1.1.0, added by Maido Remm and Triinu Koressaar)</p>
+<p>如果该值为 1，则拒绝引物 3&#8217; 端小写的重叠结构。</p>
+<p>这个工具依赖于假设 masked 位点(比如重复)能重复引物，但是无法重复引物的 3&#8217; 端。换句话说，引物其他位置上小写的碱基可以接受。</p>
+<p><strong>PRIMER_MIN_GC</strong> (float, default 20.0%)</p>
+<p>GC含量最小值。</p>
+<p><strong>PRIMER_OPT_GC_PERCENT</strong> (float, default 50.0%)</p>
+<p>GC含量优化值。只有在 PRIMER_WT_GC_PERCENT_GT 或者 PRIMER_WT_GC_PERCENT_LT 不等于0时，该参数才会影响引物的选择。</p>
+<p><strong>PRIMER_MAX_GC</strong> (float, default 80.0%)</p>
+<p>GC含量最大值。</p>
+<p><strong>PRIMER_DNA_CONC</strong> (float, default 50.0 nM)</p>
+<p>The nanomolar concentration of annealing oligos in the PCR.
+Primer3 uses this argument to calculate oligo melting
+temperatures.  The default (50nM) works well with the standard
+protocol used at the Whitehead/MIT Center for Genome
+Research&#8211;0.5 microliters of 20 micromolar concentration for each
+primer oligo in a 20 microliter reaction with 10 nanograms
+template, 0.025 units/microliter Taq polymerase in 0.1 mM each
+dNTP, 1.5mM MgCl2, 50mM KCl, 10mM Tris-HCL (pH 9.3) using 35
+cycles with an annealing temperature of 56 degrees Celsius.  This
+parameter corresponds to &#8216;c&#8217; in equation (ii) of the paper
+[14],
+where a suitable value (for a
+lower initial concentration of template) is &#8220;empirically
+determined&#8221;.  The value of this parameter is less than the actual
+concentration of oligos in the reaction because it is the
+concentration of annealing oligos, which in turn depends on the
+amount of template (including PCR product) in a given cycle.
+This concentration increases a great deal during a PCR;
+fortunately PCR seems quite robust for a variety of oligo melting
+temperatures.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ol class="last arabic simple" start="14">
+<li><a class="reference external" href="http://www.pubmedcentral.nih.gov/articlerender.fcgi?tool=pubmed&amp;pubmedid=2243783">Rychlik W, Spencer WJ and Rhoads RE (1990) &#8220;Optimization of the annealing temperature for DNA amplification in vitro&#8221;, Nucleic Acids Res 18:6409-12</a></li>
+</ol>
+</div>
+<p>See ADVICE FOR PICKING PRIMERS.</p>
+<p><strong>PRIMER_NUM_NS_ACCEPTED</strong> (int, default 0)</p>
+<p>Maximum number of unknown bases (N) allowable in any primer.</p>
+<p><strong>PRIMER_SELF_ANY</strong> (decimal,9999.99, default 8.00)</p>
+<p>The maximum allowable local alignment score when testing a single
+primer for (local) self-complementarity and the maximum allowable
+local alignment score when testing for complementarity between
+left and right primers.  Local self-complementarity is taken to
+predict the tendency of primers to anneal to each other without
+necessarily causing self-priming in the PCR.  The scoring system
+gives 1.00 for complementary bases, -0.25 for a match of any base
+(or N) with an N, -1.00 for a mismatch, and -2.00 for a gap.
+Only single-base-pair gaps are allowed.  For example, the
+alignment</p>
+<div class="highlight-none"><div class="highlight"><pre>5&#39; ATCGNA 3&#39;
+   || | |
+3&#39; TA-CGT 5&#39;
+</pre></div>
+</div>
+<p>is allowed (and yields a score of 1.75), but the alignment</p>
+<div class="highlight-none"><div class="highlight"><pre>5&#39; ATCCGNA 3&#39;
+   ||  | |
+3&#39; TA--CGT 5&#39;
+</pre></div>
+</div>
+<p>is not considered.  Scores are non-negative, and a score of 0.00
+indicates that there is no reasonable local alignment between two
+oligos.</p>
+<p><strong>PRIMER_SELF_END</strong> (decimal 9999.99, default 3.00)</p>
+<p>The maximum allowable 3&#8217;-anchored global alignment score when
+testing a single primer for self-complementarity, and the maximum
+allowable 3&#8217;-anchored global alignment score when testing for
+complementarity between left and right primers.  The 3&#8217;-anchored
+global alignment score is taken to predict the likelihood of
+PCR-priming primer-dimers, for example</p>
+<div class="highlight-none"><div class="highlight"><pre>5&#39; ATGCCCTAGCTTCCGGATG 3&#39;
+             ||| |||||
+          3&#39; AAGTCCTACATTTAGCCTAGT 5&#39;
+</pre></div>
+</div>
+<p>或者</p>
+<div class="highlight-none"><div class="highlight"><pre>5&#39; AGGCTATGGGCCTCGCGA 3&#39;
+               ||||||
+            3&#39; AGCGCTCCGGGTATCGGA 5&#39;
+</pre></div>
+</div>
+<p>The scoring system is as for the Maximum Complementarity
+argument.  In the examples above the scores are 7.00 and 6.00
+respectively.  Scores are non-negative, and a score of 0.00
+indicates that there is no reasonable 3&#8217;-anchored global
+alignment between two oligos.  In order to estimate 3&#8217;-anchored
+global alignments for candidate primers and primer pairs, Primer
+assumes that the sequence from which to choose primers is
+presented 5&#8217;-&gt;3&#8217;.  It is nonsensical to provide a larger value
+for this parameter than for the Maximum (local) Complementarity
+parameter because the score of a local alignment will always be at
+least as great as the score of a global alignment.</p>
+<p><strong>PRIMER_DEFAULT_PRODUCT</strong> (size range list, default 100-300)</p>
+<p>已被废除，与 <em>PRIMER_PRODUCT_SIZE_RANGE</em> 同义。</p>
+<p><strong>PRIMER_FILE_FLAG</strong> (boolean, default 0)</p>
+<p>If the associated value is non-0, then primer3 creates two output
+files for each input SEQUENCE.  File &lt;sequence_id&gt;.for lists all
+acceptable left primers for &lt;sequence_id&gt;, and &lt;sequence_id&gt;.rev
+lists all acceptable right primers for &lt;sequence_id&gt;, where
+&lt;sequence_id&gt; is the value of the PRIMER_SEQUENCE_ID tag (which
+must be supplied).  In addition, if the input tag
+PRIMER_PICK_INTERNAL_OLIGO is non-0, primer3 produces a file
+&lt;sequence_id&gt;.int, which lists all acceptable internal oligos.</p>
+<p><strong>PRIMER_MAX_POLY_X</strong> (int, default 5)</p>
+<p>引物允许的最大单核苷酸重复长度，比如 AAAAAA</p>
+<p><strong>PRIMER_LIBERAL_BASE</strong> (boolean, default 0)</p>
+<p>This parameter provides a quick-and-dirty way to get primer3 to
+accept IUB / IUPAC codes for ambiguous bases (i.e. by changing
+all unrecognized bases to N).  If you wish to include an
+ambiguous
+base in an oligo, you must set PRIMER_NUM_NS_ACCEPTED to a
+non-0 value.</p>
+<p>Perhaps &#8216;-&#8216; and &#8216;*&#8217; should be squeezed out rather than changed
+to &#8216;N&#8217;, but currently they simply get converted to N&#8217;s.  The authors
+invite user comments.</p>
+<p><strong>PRIMER_NUM_RETURN</strong> (int, default 5)</p>
+<p>The maximum number of primer pairs to return.  Primer pairs
+returned are sorted by their &#8220;quality&#8221;, in other words by the
+value of the objective function (where a lower number indicates a
+better primer pair).  Caution: setting this parameter to a large
+value will increase running time.</p>
+<p><strong>PRIMER_FIRST_BASE_INDEX</strong> (int, default 0)</p>
+<p>This parameter is the index of the first base in the input
+sequence.  For input and output using 1-based indexing (such as
+that used in GenBank and to which many users are accustomed) set
+this parameter to 1.  For input and output using 0-based indexing
+set this parameter to 0.  (This parameter also affects the
+indexes in the contents of the files produced when the primer
+file flag is set.)</p>
+<p><strong>PRIMER_MIN_QUALITY</strong> (int, default 0)</p>
+<p>引物最小序列质量(由 <em>PRIMER_SEQUENCE_QUALITY</em> 定义)</p>
+<p><strong>PRIMER_MIN_END_QUALITY</strong> (int, default 0)</p>
+<p>The minimum sequence quality (as specified by
+PRIMER_SEQUENCE_QUALITY) allowed within the 5&#8217; pentamer of a
+primer.</p>
+<p><strong>PRIMER_QUALITY_RANGE_MIN</strong> (int, default 0)</p>
+<p>The minimum legal sequence quality (used for error checking
+of PRIMER_MIN_QUALITY and PRIMER_MIN_END_QUALITY).</p>
+<p><strong>PRIMER_QUALITY_RANGE_MAX</strong> (int, default 100)</p>
+<p>The maximum legal sequence quality (used for error checking
+of PRIMER_MIN_QUALITY and PRIMER_MIN_END_QUALITY).</p>
+<p><strong>PRIMER_INSIDE_PENALTY</strong> (float, default -1.0)</p>
+<p>Non-default values are valid only for sequences with 0 or 1
+target regions.  If the primer is part of a pair that spans a
+target and overlaps the target, then multiply this value times
+the number of nucleotide positions by which the primer overlaps
+the (unique) target to get the &#8216;position penalty&#8217;.  The effect of
+this parameter is to allow primer3 to include overlap with the
+target as a term in the objective function.</p>
+<p><strong>PRIMER_OUTSIDE_PENALTY</strong> (float, default 0.0)</p>
+<p>Non-default values are valid only for sequences with 0 or 1
+target regions.  If the primer is part of a pair that spans a
+target and does not overlap the target, then multiply this value
+times the number of nucleotide positions from the 3&#8217; end to the
+(unique) target to get the &#8216;position penalty&#8217;.  The effect of
+this parameter is to allow primer3 to include nearness to the
+target as a term in the objective function.</p>
+<p><strong>PRIMER_MAX_END_STABILITY</strong> (float 999.9999, default 100.0)</p>
+<p>引物 3&#8217; 端最后5个碱基的最大稳定度。数值越大表示要求引物的 3&#8217; 端更稳定。这个值是 delta G (kcal/mol) 最大值。由 <em>PRIMER_TM_SANTALUCIA</em> 以邻近法计算出的5个 3&#8217; 端碱基的值。</p>
+<p>如果 <em>PRIMER_TM_SANTALUCIA=1</em>, 那么最稳定的 (GCGCG) delta G 是 6.86 kcal/mol, 最不稳定的 (TATAT) delta G 是 0.86 kcal/mol.</p>
+<p>如果 <em>PRIMER_TM_SANTALUCIA=0</em>, 那么最稳定的 (GCGCG) delta G 是 13.4 kcal/mol, 最不稳定的 (TATAC) delta G 是 4.6 kcal/mol.</p>
+<p><strong>PRIMER_PRODUCT_OPT_TM</strong> (float, default 0.0)</p>
+<p>PCR 产物优化的 Tm 值。0 表示没有专门优化温度。</p>
+<p><strong>PRIMER_PRODUCT_OPT_SIZE</strong> (int, default 0)</p>
+<p>PCR 产物优化的长度。0 表示没有专门优化长度。这个参数值只有当 <em>PRIMER_PAIR_WT_PRODUCT_SIZE_GT</em> 或者 <em>PRIMER_PAIR_WT_PRODUCT_SIZE_LT</em> 不等于0时才有效果。</p>
+<p><strong>PRIMER_TASK</strong> (string, default pick_pcr_primers)</p>
+<p>告诉 primer3 执行那种任务。有以下几个值可选：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">pick_pcr_primers</span>
+<span class="n">pick_pcr_primers_and_hyb_probe</span>
+<span class="n">pick_left_only</span>
+<span class="n">pick_right_only</span>
+<span class="n">pick_hyb_probe_only</span>
+</pre></div>
+</div>
+<p>如果设置任务为 pick_pcr_primers_and_hyb_probe，会等同于设置 PRIMER_PICK_INTERNAL_OLIGO 为一个非0值并将 PRIMER_TASK 设置为 pick_pcr_primers 的任务。</p>
+<p><strong>PRIMER_WT_TM_GT</strong> (float, default 1.0)</p>
+<p>设置引物 Tm 值超过 PRIMER_OPT_TM 时的惩罚值。</p>
+<p><strong>PRIMER_WT_TM_LT</strong> (float, default 1.0)</p>
+<p>设置引物 Tm 值低于 PRIMER_OPT_TM 时的惩罚值。</p>
+<p><strong>PRIMER_WT_SIZE_LT</strong> (float, default 1.0)</p>
+<p>设置引物长度小于 PRIMER_OPT_SIZE 的惩罚值。</p>
+<p><strong>PRIMER_WT_SIZE_GT</strong> (float, default 1.0)</p>
+<p>设置引物长度大于 PRIMER_OPT_SIZE 的惩罚值。</p>
+<p><strong>PRIMER_WT_GC_PERCENT_LT</strong> (float, default 1.0)</p>
+<p>设置引物 GC 含量低于 PRIMER_OPT_GC_PERCENT 的惩罚值。</p>
+<p><strong>PRIMER_WT_GC_PERCENT_GT</strong> (float, default 1.0)</p>
+<p>设置引物 GC 含量高于 PRIMER_OPT_GC_PERCENT 的惩罚值。</p>
+<div class="line-block">
+<div class="line"><strong>PRIMER_WT_COMPL_ANY</strong> (float, default 0.0)</div>
+<div class="line"><strong>PRIMER_WT_COMPL_END</strong> (float, default 0.0)</div>
+<div class="line"><strong>PRIMER_WT_NUM_NS</strong> (float, default 0.0)</div>
+<div class="line"><strong>PRIMER_WT_REP_SIM</strong> (float, default 0.0)</div>
+<div class="line"><strong>PRIMER_WT_SEQ_QUAL</strong> (float, default 0.0)</div>
+<div class="line"><strong>PRIMER_WT_END_QUAL</strong> (float, default 0.0)</div>
+<div class="line"><strong>PRIMER_WT_POS_PENALTY</strong> (float, default 0.0)</div>
+<div class="line"><strong>PRIMER_WT_END_STABILITY</strong> (float, default 0.0)</div>
+<div class="line"><strong>PRIMER_WT_TEMPLATE_MISPRIMING</strong> (float, default 0.0)</div>
+<div class="line"><strong>PRIMER_PAIR_WT_PR_PENALTY</strong> (float, default 1.0)</div>
+<div class="line"><strong>PRIMER_PAIR_WT_IO_PENALTY</strong> (float, default 0.0)</div>
+<div class="line"><strong>PRIMER_PAIR_WT_DIFF_TM</strong> (float, default 0.0)</div>
+<div class="line"><strong>PRIMER_PAIR_WT_COMPL_ANY</strong> (float, default 0.0)</div>
+<div class="line"><strong>PRIMER_PAIR_WT_COMPL_END</strong> (float, default 0.0)</div>
+<div class="line"><strong>PRIMER_PAIR_WT_PRODUCT_TM_LT</strong> (float, default 0.0)</div>
+<div class="line"><strong>PRIMER_PAIR_WT_PRODUCT_TM_GT</strong> (float, default 0.0)</div>
+<div class="line"><strong>PRIMER_PAIR_WT_PRODUCT_SIZE_GT</strong> (float, default 0.0)</div>
+<div class="line"><strong>PRIMER_PAIR_WT_PRODUCT_SIZE_LT</strong> (float, default 0.0)</div>
+<div class="line"><strong>PRIMER_PAIR_WT_REP_SIM</strong> (float, default 0.0)</div>
+<div class="line"><strong>PRIMER_PAIR_WT_TEMPLATE_MISPRIMING</strong> (float, default 0.0)</div>
+</div>
+<p>就像参数控制着 PCR 引物的选取，这些控制着探针选择的输入标签分成为几类： Sequence 输入标签，Global 输入标签。
+Like the arguments governing PCR primer selection, the input tags
+governing internal oligo selection are divided into sequence
+input tags and global input tags, with for former being
+automatically reset after each input record, and the latter
+persisting until explicitly reset.</p>
+<p>Because the laboratory detection step using internal oligos
+is independent of the PCR amplification procedure,
+internal oligo tags have defaults that are independent
+of the parameters that govern the selection of PCR primers.
+For example, the melting temperature of an oligo
+used for hybridization might be considerably lower
+than that used as a PCR primer.</p>
+</div>
+<div class="section" id="id13">
+<h3>4.2.3 &#8220;Sequence&#8221; 探针输入标签<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<p><strong>PRIMER_INTERNAL_OLIGO_EXCLUDED_REGION</strong> (interval list, default empty)</p>
+<p>引物之间的探针可能无法与指定区域匹配，该标签值用空格分割</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">&lt;start&gt;,&lt;length&gt;</p>
+</div>
+<p>&lt;start&gt; 是定义的起始位点，&lt;length&gt; 是从该位点起的序列长度。</p>
+<p><strong>PRIMER_INTERNAL_OLIGO_INPUT</strong> (nucleotide sequence, default empty)</p>
+<p>检测探针序列是符合引物。必须是模板的一段序列。</p>
+</div>
+<div class="section" id="id14">
+<h3>4.2.4 &#8220;Global&#8221; 探针输入标签<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<p>这些标签与之前讨论的 Global 输入标签类似，区别是：</p>
+<div class="line-block">
+<div class="line"><strong>PRIMER_INTERNAL_OLIGO_SELF_END</strong> 当挑选用于杂交的探针时，因为不会产生引物二聚体，所以是无意义的。</div>
+<div class="line"><strong>PRIMER_INTERNAL_OLIGO_SELF_END</strong> 建议至少设置成与 PRIMER_INTERNAL_OLIGO_SELF_ANY 一样大的值。</div>
+</div>
+<div class="line-block">
+<div class="line"><strong>PRIMER_INTERNAL_OLIGO_OPT_SIZE</strong> (int, default 20)</div>
+<div class="line"><strong>PRIMER_INTERNAL_OLIGO_MIN_SIZE</strong> (int, default 18)</div>
+<div class="line"><strong>PRIMER_INTERNAL_OLIGO_MAX_SIZE</strong> (int, default 27)</div>
+<div class="line"><strong>PRIMER_INTERNAL_OLIGO_OPT_TM</strong> (float, default 60.0 degrees C)</div>
+<div class="line"><strong>PRIMER_INTERNAL_OLIGO_OPT_GC_PERCENT</strong> (float, default 50.0%)</div>
+<div class="line"><strong>PRIMER_INTERNAL_OLIGO_MIN_TM</strong> (float, default 57.0 degrees C)</div>
+<div class="line"><strong>PRIMER_INTERNAL_OLIGO_MAX_TM</strong> (float, default 63.0 degrees C)</div>
+<div class="line"><strong>PRIMER_INTERNAL_OLIGO_MIN_GC</strong> (float, default 20.0%)</div>
+<div class="line"><strong>PRIMER_INTERNAL_OLIGO_MAX_GC</strong> (float, default 80.0%)</div>
+<div class="line"><strong>PRIMER_INTERNAL_OLIGO_SALT_CONC</strong> (float, default 50.0 mM)</div>
+<div class="line"><strong>PRIMER_INTERNAL_OLIGO_DIVALENT_CONC</strong> (float, default 0.0 mM)</div>
+<div class="line"><strong>PRIMER_INTERNAL_OLIGO_DNTP_CONC</strong> (float, default 0.0 mM)</div>
+<div class="line"><strong>PRIMER_INTERNAL_OLIGO_DNA_CONC</strong> (float, default 50.0 nM)</div>
+<div class="line"><strong>PRIMER_INTERNAL_OLIGO_SELF_ANY</strong> (decimal 9999.99, default 12.00)</div>
+<div class="line"><strong>PRIMER_INTERNAL_OLIGO_MAX_POLY_X</strong> (int, default 5)</div>
+<div class="line"><strong>PRIMER_INTERNAL_OLIGO_SELF_END</strong> (decimal 9999.99, default 12.00)</div>
+</div>
+<p><strong>PRIMER_INTERNAL_OLIGO_MISHYB_LIBRARY</strong> (string, optional)</p>
+<p>与 PRIMER_MISPRIMING_LIBRARY 类似， 但是这是为了避免与库里的序列和探针产生杂交。</p>
+<p><strong>PRIMER_INTERNAL_OLIGO_MAX_MISHYB</strong> (decimal,9999.99, default 12.00)</p>
+<p>与 PRIMER_MAX_MISPRIMING 类似，但是这个参数作用于 PRIMER_INTERNAL_OLIGO_MISHYB_LIBRARY。</p>
+<p><strong>PRIMER_INTERNAL_OLIGO_MAX_TEMPLATE_MISHYB</strong> (decimal,9999.99, default 12.00)</p>
+<p>未被使用。</p>
+<p><strong>PRIMER_INTERNAL_OLIGO_MIN_QUALITY</strong> (int, default 0)</p>
+<p>请注意没有 PRIMER_INTERNAL_OLIGO_MIN_END_QUALITY 标签</p>
+<div class="line-block">
+<div class="line"><strong>PRIMER_IO_WT_TM_GT</strong> (float, default 1.0)</div>
+<div class="line"><strong>PRIMER_IO_WT_TM_LT</strong> (float, default 1.0)</div>
+<div class="line"><strong>PRIMER_IO_WT_GC_PERCENT_GT</strong> (float, default 1.0)</div>
+<div class="line"><strong>PRIMER_IO_WT_GC_PERCENT_LT</strong> (float, default 1.0)</div>
+<div class="line"><strong>PRIMER_IO_WT_SIZE_LT</strong> (float, default 1.0)</div>
+<div class="line"><strong>PRIMER_IO_WT_SIZE_GT</strong> (float, default 1.0)</div>
+<div class="line"><strong>PRIMER_IO_WT_COMPL_ANY</strong> (float, default 0.0)</div>
+<div class="line"><strong>PRIMER_IO_WT_COMPL_END</strong> (float, default 0.0)</div>
+<div class="line"><strong>PRIMER_IO_WT_NUM_NS</strong> (float, default 0.0)</div>
+<div class="line"><strong>PRIMER_IO_WT_REP_SIM</strong> (float, default 0.0)</div>
+<div class="line"><strong>PRIMER_IO_WT_SEQ_QUAL</strong> (float, default 0.0)</div>
+<div class="line"><strong>PRIMER_IO_WT_END_QUAL</strong> (float, default 0.0)</div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="reference.html" title="hello"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="usage.html" title="3. Primer3 使用"
+             >previous</a> |</li>
+        <li><a href="index.html">Primer3 v2.2.2 入门教程 v0.1 beta documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010, Mark Renton.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0b2.
+    </div>
+  </body>
+</html>

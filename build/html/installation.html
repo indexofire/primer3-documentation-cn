@@ -1,0 +1,185 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>2. Primer3 安装 &mdash; Primer3 v2.2.2 入门教程 v0.1 beta documentation</title>
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1 beta',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Primer3 v2.2.2 入门教程 v0.1 beta documentation" href="index.html" />
+    <link rel="next" title="3. Primer3 使用" href="usage.html" />
+    <link rel="prev" title="1. Primer3 简介" href="introduction.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="usage.html" title="3. Primer3 使用"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="introduction.html" title="1. Primer3 简介"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Primer3 v2.2.2 入门教程 v0.1 beta documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">2. Primer3 安装</a><ul>
+<li><a class="reference internal" href="#unix-and-linux">2.1 Unix and Linux 编译安装</a></li>
+<li><a class="reference internal" href="#freebsd">2.2 FreeBSD 安装</a></li>
+<li><a class="reference internal" href="#mac-osx">2.3 Mac OSX 编译安装</a></li>
+<li><a class="reference internal" href="#windows">2.4 Windows 下安装</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="introduction.html"
+                        title="previous chapter">1. Primer3 简介</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="usage.html"
+                        title="next chapter">3. Primer3 使用</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/installation.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="primer3">
+<h1>2. Primer3 安装<a class="headerlink" href="#primer3" title="Permalink to this headline">¶</a></h1>
+<p>你可以在多个平台下安装 Primer3，已知可以使用的有 Windows, Mac OSX, Linux, FreeBSD 等。</p>
+<div class="section" id="unix-and-linux">
+<h2>2.1 Unix and Linux 编译安装<a class="headerlink" href="#unix-and-linux" title="Permalink to this headline">¶</a></h2>
+<p>下载并解压缩软件包。 编译源代码，并测试。</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>unzip primer3_1.1.4.tar.gz
+<span class="nv">$ </span>tar xvf primer3_1.1.4.tar
+<span class="nv">$ </span><span class="nb">cd </span>primer3_1.1.4/src
+
+<span class="c"># 如果系统不带 gcc, 则修改 makefile, 设置所使用的 C 编译器。</span>
+
+<span class="nv">$ </span>make all
+
+<span class="c"># pr_release being unused 的警告提示可以不用理会</span>
+<span class="c"># 编译后应该可以看到 primer3_core, ntdpal, olgotm, long_seq_tm_test 这4个可执行程序</span>
+
+<span class="nv">$ </span>make <span class="nb">test</span>
+
+<span class="c"># 没有显示 &#39;FAILED&#39; 则表明通过测试，可以安装</span>
+
+<span class="nv">$ </span>sudo cp primer3_core ntdpal olgotm long_seq_tm_test /usr/sbin
+</pre></div>
+</div>
+<p>如果你的 perl 程序名字不是 perl 而是其他名称比如 perl5，则需要 link 一个 perl 名称，或者修改 test/ 目录里的 Makefile 文件以通过测试。 ntdpal (NucleoTide Dynamic Programming ALignment) 是一个 stand-alone 程序，它给 primer3 提供比对功能，文档将在以后版本中添加。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">一些主流发行版例如 Ubuntu 等，有二进制包可以直接 apt-get install primer3 来安装。详细内容参见各发行版的软件安装和管理方法。</p>
+</div>
+</div>
+<div class="section" id="freebsd">
+<h2>2.2 FreeBSD 安装<a class="headerlink" href="#freebsd" title="Permalink to this headline">¶</a></h2>
+<p>FreeBSD的最常见的安装方式为 Ports，而且ports tree里已经收录了包括Primer3等一批生物学软件。</p>
+<div class="highlight-bash"><div class="highlight"><pre>root# <span class="nb">cd</span> /usr/ports/biology/primer3
+root# make install clean
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">用 FreeBSD 的 Ports 安装 Primer3，系统会将 primer3_core 重命名为 primer3，因此运行程序直接使用 prime3 即可。</p>
+</div>
+<p>当然你也可以直接安装 primer3 二进制包，软件安装系统会自动根据你 FreeBSD 版本下载相应的包安装。</p>
+<div class="highlight-bash"><div class="highlight"><pre>root# pkg_add -vr primer3
+</pre></div>
+</div>
+</div>
+<div class="section" id="mac-osx">
+<h2>2.3 Mac OSX 编译安装<a class="headerlink" href="#mac-osx" title="Permalink to this headline">¶</a></h2>
+<p>如果你只想编译一个 <em>processor-native</em>, <em>non-universal</em> 的 primer3, 只要按照 Unix/Linux 的方式编译即可。但如果你想编译一个兼容 PPC 和 Intel 的 CPU 的 Primer3，请先安装 OS X 的开发者工具(developer tools)，你可以到 <a class="reference external" href="http://developer.apple.com">http://developer.apple.com</a> 下载。操作系统版本 OS X 必须大于 10.4，并且已安装了最新版的 XCode。Mac OSX 的预编译包可以在 <a class="reference external" href="http://sourceforge.net/projects/primer3/">http://sourceforge.net/projects/primer3/</a> 下载到。</p>
+<p>编译方法如下：</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c"># Mac OSX 10.5</span>
+<span class="nv">$ </span>make -f Makefile.OSX.Leopard
+
+<span class="c"># Mac OSX 10.4</span>
+<span class="nv">$ </span>make -f Makefile.OSX.Tiger
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">没有 SnowLeopard 版本的 Mac OS，能否在 SnowLeopard 上编译通过目前无法测试。</p>
+</div>
+<p>README.OSX.txt 文件里有介绍如何编译安装。你可以在 CFLAGS 和 LDFLAGS 后加参数 <cite>-arch ppc64</cite> 来编译一个多版本通用的二进制包，这样除了兼容 PPC 和 Intel 外，还兼容 PPC64 版本。不过目前这种编译方式还没有被仔细测试。</p>
+</div>
+<div class="section" id="windows">
+<h2>2.4 Windows 下安装<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h2>
+<p>Primer3 也提供了 WindowsXP 的安装包，可以到 <a class="reference external" href="http://nchc.dl.sourceforge.net/sourceforge/primer3/primer3-1.1.4-WINXP.zip">这里</a> 下载。</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="usage.html" title="3. Primer3 使用"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="introduction.html" title="1. Primer3 简介"
+             >previous</a> |</li>
+        <li><a href="index.html">Primer3 v2.2.2 入门教程 v0.1 beta documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010, Mark Renton.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0b2.
+    </div>
+  </body>
+</html>

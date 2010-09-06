@@ -1,0 +1,555 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>3. Primer3 使用 &mdash; Primer3 v2.2.2 入门教程 v0.1 beta documentation</title>
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1 beta',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Primer3 v2.2.2 入门教程 v0.1 beta documentation" href="index.html" />
+    <link rel="next" title="4. Primer3 参考手册" href="tags.html" />
+    <link rel="prev" title="2. Primer3 安装" href="installation.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="tags.html" title="4. Primer3 参考手册"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="installation.html" title="2. Primer3 安装"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Primer3 v2.2.2 入门教程 v0.1 beta documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">3. Primer3 使用</a><ul>
+<li><a class="reference internal" href="#primer3-core">3.1 调用 primer3_core</a></li>
+<li><a class="reference internal" href="#id1">3.2 输入和输出</a></li>
+<li><a class="reference internal" href="#id2">3.3 一个简单的例子</a></li>
+<li><a class="reference internal" href="#io-version-4">3.4 如何移植标签为 IO VERSION 4</a><ul>
+<li><a class="reference internal" href="#the-per-sequence-tags">3.4.1 The &#8220;per sequence&#8221; tags:</a></li>
+<li><a class="reference internal" href="#the-global-tags">3.4.2 The &#8220;global&#8221; tags:</a></li>
+<li><a class="reference internal" href="#the-following-tags-internal-oligo-is-replaced-by-internal">3.4.3 The following tags INTERNAL_OLIGO is replaced by INTERNAL:</a></li>
+<li><a class="reference internal" href="#the-following-tags-io-is-replaced-by-internal">3.4.4 The following tags IO is replaced by INTERNAL:</a></li>
+<li><a class="reference internal" href="#output-tags">3.4.5 OUTPUT TAGS:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="installation.html"
+                        title="previous chapter">2. Primer3 安装</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="tags.html"
+                        title="next chapter">4. Primer3 参考手册</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/usage.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="primer3">
+<h1>3. Primer3 使用<a class="headerlink" href="#primer3" title="Permalink to this headline">¶</a></h1>
+<p>如果你已经按照上一节的方法将 Primer3 安装到电脑，那么通过本节的简单介绍 Primer3 ，希望你能够掌握基本的使用方法。</p>
+<div class="section" id="primer3-core">
+<h2>3.1 调用 primer3_core<a class="headerlink" href="#primer3-core" title="Permalink to this headline">¶</a></h2>
+<p>默认编译的可执行程序叫做 primer3_core，由这个 C 程序承担复杂的引物挑选任务。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">个别Linux发行版会将 primer3_core 链接为 primer3。</p>
+</div>
+<p>终端下 primer3 的命令行格式如下:</p>
+<div class="highlight-bash"><div class="highlight"><pre>primer3_core <span class="o">[</span> -format_output <span class="o">]</span> <span class="o">[</span> -io_version<span class="o">=</span>3|-io_version<span class="o">=</span>4 <span class="o">]</span> <span class="o">[</span> -p3_settings_file<span class="o">=</span>&lt;file_path&gt; <span class="o">]</span> <span class="o">[</span> -echo_settings_file <span class="o">]</span> <span class="o">[</span> -strict_tags <span class="o">]</span> <span class="o">[</span> -output<span class="o">=</span>&lt;file_path&gt; <span class="o">]</span> <span class="o">[</span> -error<span class="o">=</span>&lt;file_path&gt; <span class="o">]</span> <span class="o">[</span> input_file <span class="o">]</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><strong>-about</strong> 这个参数显示 Primer3 的版本号信息。</li>
+<li><strong>-format_output</strong> 这个参数表示让 primer3_core 输出用户可读的输出。</li>
+<li><strong>-strict_tags</strong> 这个参数表示如果某个标签无法识别，则让 primer3_core 输出错误信息。</li>
+<li><strong>-p3_settings_file=&lt;file_path&gt;</strong> 这个参数指定一个设置文件， Primer3 读取该文件中的全局参数 （“PRIMER ...&#8221;) 。标签中的设置出现文件覆盖默认 primer3 设置。在该设置文件中的值也被输入文件的标签覆盖。查看 primer3 文档以了解该文件格式的详细信息。</li>
+<li><strong>-echo_settings_file</strong> 这个参数表明 primer3_core 在配置文件中指定的应打印的输入标签。如果没有设置配置文件，或如果有 -format_output 选项，则这个参数将没有任何效果。</li>
+<li><strong>-output=&lt;file_path&gt;</strong> 这个参数指定输出结果为文件的保存路径。如果省略，则在终端打印结果信息。</li>
+<li><strong>-io_version=n</strong> 这个参数引导 primer3 使用的IO版本的输入和输出方式。 n可以是3（主要是向后兼容的行为）或4。 -io_version=4 是默认值，使用2.0.0及更高版本的新功能时需要使用这个值。</li>
+<li><strong>-error=&lt;file_path&gt;</strong> 这个参数指定输出错误信息的文件位置。如果省略，则在终端打印错误信息。</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">如果没有 input 文件，则程序接受终端输入作为参数。</p>
+</div>
+</div>
+<div class="section" id="id1">
+<h2>3.2 输入和输出<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>默认状态下，primer3 接受以 Boulder-io, pre-XML, pre-RDF, text-based 格式的输入/输出支持。 primer3 的输出默认也和输入采用一样的格式。 当在命令行添加 -format_output 参数时, primer3 会在终端打印出更加用户可读的报告格式。 Primer3 正常退出的话返回状态值 0。 (参见 EXIT STATUS CODES)。</p>
+<p><strong>Boulder-io 输入的格式要求如下：</strong></p>
+<ul class="simple">
+<li>输入的内容是一些含有序列记录的字符串</li>
+<li>单条记录由一系列标签和其值组成，用换行区分。每一条记录的结尾用一个新行的 &#8216;=&#8217; 来标志其结束</li>
+<li>每一个标签和其值符合以下规范:<ul>
+<li>标签必须连接&#8217;=&#8217;，中间不能有空格</li>
+<li>标签和其值用换行符间隔</li>
+</ul>
+</li>
+</ul>
+<p>一个合乎规范的标签写法：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">PRIMER_SEQUENCE_ID</span><span class="o">=</span><span class="n">my_marker</span>
+</pre></div>
+</div>
+<p>一个简单的 BOULDER-IO 记录例子：</p>
+<div class="highlight-python"><pre>PRIMER_SEQUENCE_ID=test1
+SEQUENCE=GACTGATCGATGCTAGCTACGATCGATCGATGCATGCTAGCTAGCTAGCTGCTAGC
+=</pre>
+</div>
+<p>同时可以按顺序发送多条记录，每条记录之间用&#8217;=&#8217;分隔。下面是一个3条不同记录的例子：</p>
+<div class="highlight-python"><pre>PRIMER_SEQUENCE_ID=test1
+SEQUENCE=GACTGATCGATGCTAGCTACGATCGATCGATGCATGCTAGCTAGCTAGCTGCTAGC
+=
+PRIMER_SEQUENCE_ID=test2
+SEQUENCE=CATCATCATCATCGATGCTAGCATCNNACGTACGANCANATGCATCGATCGT
+=
+PRIMER_SEQUENCE_ID=test3
+SEQUENCE=NACGTAGCTAGCATGCACNACTCGACNACGATGCACNACAGCTGCATCGATGC
+=</pre>
+</div>
+<p>Primer3 在 stdin 输入 boulder-io 格式的字符后会打印一便，并在stdout返回 boulder-io 格式结果。</p>
+<p>Primer3 有一套错误信息提示系统。用户在 PRIMER_ERROR 标签定义的值，可以显示需要纠正的错误信息（见以下），以及系统的其他错误，比如配置错误，资源的错误（例如出内存不足的错误），并通过stderr错误信息和非零退出消息表明程序错误。</p>
+<p>Primer3 会打印出所输入错误的标记并将其忽略，除非命令行设置了 -strict_tags 标签。在这种情况下 primer3 在打印输出的 PRIMER_ERROR 标签错误（见下文），并 stdout 中打印其他信息；此选项在调试时非常有用。</p>
+<p>除了标注为“interval list” 的标签，每个标签只允许出现一次。但这种限制，并非由系统来检查，因此使用标签是请尽量小心避免重复。</p>
+<div class="line-block">
+<div class="line">输入标签有2个类别：</div>
+<div class="line">“Sequence” 输入标签描述一个提供给 primer3 的特定输入序列，并在遇到每一条新的 boulder-io 记录时复位并重新载入。</div>
+<div class="line">“Global” 输入标签描述一些 primer3 搜索引物需要的参数，这些参数在切换 boulder-io 记录时仍旧保留，除非你显性标注让其复位。</div>
+</div>
+<p>错误的 “Sequence” 输入标签出错造成无效时，primer3 会继续处理的其他记录。“Global” 输入标签出错是致命的，因为一旦标签失效，则挑选引物的基本条件就出错导致无法选择到正确的引物。</p>
+</div>
+<div class="section" id="id2">
+<h2>3.3 一个简单的例子<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>某人想做 PCR引物设计，CA 在序列中部重复，想定义引物进行特定选择，使用标签来设计引物。我们首先通过 stdin 将 boulder-io 格式的信息发送给 Primer3。有很多种方法来操作，最简单的方法是可以将内容保存成一个 example 文件，然后运行程序，在终端输入：</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>primer3_core &lt; example
+
+<span class="nv">PRIMER_SEQUENCE_ID</span><span class="o">=</span>example
+<span class="nv">SEQUENCE</span><span class="o">=</span>GTAGTCAGTAGACNATGACNACTGACGATGCAGACNACACACACACACACAGCACACAGGTATTAGTGGGCCATTCGATCCCGACCCAAATCGATAGCTACGATGACG
+<span class="nv">TARGET</span><span class="o">=</span>37,21
+<span class="nv">PRIMER_OPT_SIZE</span><span class="o">=</span>18
+<span class="nv">PRIMER_MIN_SIZE</span><span class="o">=</span>15
+<span class="nv">PRIMER_MAX_SIZE</span><span class="o">=</span>21
+<span class="nv">PRIMER_NUM_NS_ACCEPTED</span><span class="o">=</span>1
+<span class="nv">PRIMER_PRODUCT_SIZE_RANGE</span><span class="o">=</span>75-100
+<span class="nv">PRIMER_FILE_FLAG</span><span class="o">=</span>1
+<span class="nv">PRIMER_PICK_INTERNAL_OLIGO</span><span class="o">=</span>1
+<span class="nv">PRIMER_INTERNAL_OLIGO_EXCLUDED_REGION</span><span class="o">=</span>37,21
+<span class="nv">PRIMER_EXPLAIN_FLAG</span><span class="o">=</span><span class="nv">1</span>
+<span class="o">=</span>
+</pre></div>
+</div>
+<p>下面依次解释下用到的各个标签：</p>
+<p><strong>PRIMER_SEQUENCE_ID=example</strong></p>
+<p>这个标签主要是给序列建立一个id，这样针对多个序列设计引物时就不会搞混。这个标签不是必须标签，可以省略。但是如果 P3_FILE_FLAG 标签值不等于0的话，则必须使用该标签。因为程序需要用此标签来个输出的结果文件来命名。</p>
+<p><strong>SEQUENCE=GTAGTCAGTAGACNATGACNA...TACGATGACG</strong></p>
+<p>这个标签不用过多介绍，一看便知，这是用来存放模板序列的。本例子的模板有108个碱基，要注意这个标签的值不能回车换行。</p>
+<p><strong>TARGET=37,21</strong></p>
+<p>模板的中部从37的位置开始有21个长度的CA重复序列，我们想让 primer3 选择这个位点作为重点扩增目的片段。这样设计的引物会尽可能的针对从37开始的21各碱基。</p>
+<p><strong>PRIMER_OPT_SIZE=18</strong></p>
+<p>因为模板长度较小，所以引物也需要优化，将其设置为18，那么程序会尽可能选择该长度的引物片段。</p>
+<p><strong>PRIMER_MIN_SIZE=15</strong>
+<strong>PRIMER_MAX_SIZE=21</strong></p>
+<p>引物的最小和最大长度。</p>
+<p><strong>PRIMER_NUM_NS_ACCEPTED=1</strong></p>
+<p>该标签设置为1的话，可以让程序挑选的引物中含有1各未知碱基。</p>
+<p><strong>PRIMER_PRODUCT_SIZE_RANGE=75-100</strong></p>
+<p>这是表示需要的扩增产物长度的标签。该标签的默认值是100-300，由于模板短所以将其修改成75-100，否则程序可能很难找到需要的引物。</p>
+<p><strong>PRIMER_FILE_FLAG=1</strong></p>
+<p>通过这个标签，可以把结果输出到以 PRIMER_SEQUENCE_ID 值定义名字的文件。</p>
+<p><strong>PRIMER_PICK_INTERNAL_OLIGO=1</strong></p>
+<p>我们想了解程序能否挑选一个杂交探针，所以将这个值设为1。</p>
+<p><strong>PRIMER_INTERNAL_OLIGO_EXCLUDED_REGION=37,21</strong></p>
+<p>一般来说很难获得CA重复序列的探针。所以我们把这个位点从探针合成的位点设计中给排除出去。</p>
+<p><strong>PRIMER_EXPLAIN_FLAG=1</strong></p>
+<p>我们想要获得一些统计结果，可以用这个标签定义</p>
+<p><strong>=</strong></p>
+<p>&#8216;=&#8217; 用来结束一个 boulder-io 数据。</p>
+<p>结尾用 &#8216;=&#8217; 标记后，程序就开始搜索，挑选出最佳引物，最后输出到终端。由于有 PRIMER_FILE_FLAG=1，因此当前目录下会有输出 example.* 文件保存引物和探针信息。</p>
+</div>
+<div class="section" id="io-version-4">
+<h2>3.4 如何移植标签为 IO VERSION 4<a class="headerlink" href="#io-version-4" title="Permalink to this headline">¶</a></h2>
+<p>With primer3 release 2.0, many Boulder-IO tags were modified and new tags were introduced. The new primer3 tags are designed with the idea in mind that computer scripts and other programs use primer3_core. The modifications make it easier for programs to read and write primer3 input and output.</p>
+<p>For temporary backward compatibility, a command line argument (-io_version=3) allows the use of primer3 tags the are nearly identical to the previous version. However, even with -io_version=3, the text of some warning and error messages has changed, as have some details of the <strong>PRIMER_..._EXPLAIN</strong> output tags. New functionality is not available with the -io_version=3 tags. Furthermore the primer3 default values and the use of PRIMER_WT_TEMPLATE_MISPRIMING and PRIMER_PAIR_WT_TEMPLATE_MISPRIMING have changed in version 2.0. The backward compatibility might be dropped in the next release of primer3.</p>
+<p>There are three classes of input: &#8220;Sequence&#8221; input tags describe a particular input sequence to primer3, and are reset after every Boulder record (now starting with <strong>SEQUENCE_</strong>). &#8220;Global&#8221; input tags describe the general parameters that primer3 should use in its searches, and the values of these tags persist between input Boulder records until or unless they are explicitly reset (now starting with <strong>PRIMER_</strong>). &#8220;Program&#8221; parameters that deal with the behavior of the primer3 program itself (now starting with <strong>P3_</strong>). See below for a list of the modified tags.</p>
+<p>The handling of PRIMER_TASK changed completely. In the past we used it to tell primer3 what task to perform. Now the task is complemented with <strong>PRIMER_PICK_RIGHT_PRIMER</strong>, <strong>PRIMER_PICK_INTERNAL_OLIGO</strong> and <strong>PRIMER_PICK_LEFT_PRIMER</strong>, which specify which primers are to be picked.</p>
+<p>These Tags are modified:</p>
+<div class="section" id="the-per-sequence-tags">
+<h3>3.4.1 The &#8220;per sequence&#8221; tags:<a class="headerlink" href="#the-per-sequence-tags" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="40%" />
+<col width="60%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">NEW VERSION</th>
+<th class="head">OLD VERSION</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>SEQUENCE_ID</td>
+<td>PRIMER_SEQUENCE_ID</td>
+</tr>
+<tr><td>SEQUENCE_TEMPLATE</td>
+<td>SEQUENCE</td>
+</tr>
+<tr><td>SEQUENCE_QUALITY</td>
+<td>PRIMER_SEQUENCE_QUALITY</td>
+</tr>
+<tr><td>SEQUENCE_INCLUDED_REGION</td>
+<td>INCLUDED_REGION</td>
+</tr>
+<tr><td>SEQUENCE_TARGET</td>
+<td>TARGET</td>
+</tr>
+<tr><td>SEQUENCE_EXCLUDED_REGION</td>
+<td>EXCLUDED_REGION</td>
+</tr>
+<tr><td>SEQUENCE_START_CODON_POSITION</td>
+<td>PRIMER_START_CODON_POSITION</td>
+</tr>
+<tr><td>SEQUENCE_PRIMER</td>
+<td>PRIMER_LEFT_INPUT</td>
+</tr>
+<tr><td>SEQUENCE_PRIMER_REVCOMP</td>
+<td>PRIMER_RIGHT_INPUT</td>
+</tr>
+<tr><td>SEQUENCE_INTERNAL_OLIGO</td>
+<td>PRIMER_INTERNAL_OLIGO_INPUT</td>
+</tr>
+<tr><td>SEQUENCE_INTERNAL_EXCLUDED_REGION</td>
+<td>PRIMER_INTERNAL_OLIGO_EXCLUDED_REGION</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="the-global-tags">
+<h3>3.4.2 The &#8220;global&#8221; tags:<a class="headerlink" href="#the-global-tags" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="40%" />
+<col width="60%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head"><strong>NEW VERSION</strong></th>
+<th class="head"><strong>OLD VERSION</strong></th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>PRIMER_TASK</td>
+<td>PRIMER_TASK (modified use)</td>
+</tr>
+<tr><td>PRIMER_PICK_RIGHT_PRIMER</td>
+<td>did not exist</td>
+</tr>
+<tr><td>PRIMER_PICK_INTERNAL_OLIGO</td>
+<td>PRIMER_PICK_INTERNAL_OLIGO (modified use)</td>
+</tr>
+<tr><td>PRIMER_PICK_LEFT_PRIMER</td>
+<td>did not exist</td>
+</tr>
+<tr><td>PRIMER_PAIR_WT_TEMPLATE_MISPRIMING</td>
+<td>PRIMER_PAIR_WT_TEMPLATE_MISPRIMING (modified use)</td>
+</tr>
+<tr><td>PRIMER_WT_TEMPLATE_MISPRIMING</td>
+<td>PRIMER_WT_TEMPLATE_MISPRIMING (modified use)</td>
+</tr>
+<tr><td>PRIMER_MAX_LIBRARY_MISPRIMING</td>
+<td>PRIMER_MAX_MISPRIMING</td>
+</tr>
+<tr><td>PRIMER_INTERNAL_MAX_LIBRARY_MISHYB</td>
+<td>PRIMER_INTERNAL_OLIGO_MAX_MISHYB</td>
+</tr>
+<tr><td>PRIMER_PAIR_MAX_LIBRARY_MISPRIMING</td>
+<td>PRIMER_PAIR_MAX_MISPRIMING</td>
+</tr>
+<tr><td>PRIMER_WT_LIBRARY_MISPRIMING</td>
+<td>PRIMER_WT_REP_SIM</td>
+</tr>
+<tr><td>PRIMER_INTERNAL_WT_LIBRARY_MISHYB</td>
+<td>PRIMER_INTERNAL_WT_REP_SIM</td>
+</tr>
+<tr><td>PRIMER_PAIR_WT_LIBRARY_MISPRIMING</td>
+<td>PRIMER_PAIR_WT_REP_SIM</td>
+</tr>
+<tr><td>PRIMER_MAX_NS_ACCEPTED</td>
+<td>PRIMER_NUM_NS_ACCEPTED</td>
+</tr>
+<tr><td>PRIMER_PAIR_MAX_DIFF_TM</td>
+<td>PRIMER_MAX_DIFF_TM</td>
+</tr>
+<tr><td>PRIMER_SALT_MONOVALENT</td>
+<td>PRIMER_SALT_CONC</td>
+</tr>
+<tr><td>PRIMER_SALT_DIVALENT</td>
+<td>PRIMER_DIVALENT_CONC</td>
+</tr>
+<tr><td>PRIMER_TM_FORMULA</td>
+<td>PRIMER_TM_SANTALUCIA</td>
+</tr>
+<tr><td>PRIMER_MAX_SELF_ANY</td>
+<td>PRIMER_SELF_ANY</td>
+</tr>
+<tr><td>PRIMER_MAX_SELF_END</td>
+<td>PRIMER_SELF_END</td>
+</tr>
+<tr><td>PRIMER_WT_SELF_ANY</td>
+<td>PRIMER_WT_COMPL_ANY</td>
+</tr>
+<tr><td>PRIMER_WT_SELF_END</td>
+<td>PRIMER_WT_COMPL_END</td>
+</tr>
+<tr><td>PRIMER_PAIR_MAX_COMPL_ANY</td>
+<td>PRIMER_PAIR_ANY</td>
+</tr>
+<tr><td>PRIMER_PAIR_MAX_COMPL_END</td>
+<td>PRIMER_PAIR_END</td>
+</tr>
+<tr><td>P3_FILE_FLAG</td>
+<td>PRIMER_FILE_FLAG</td>
+</tr>
+<tr><td>P3_COMMENT</td>
+<td>PRIMER_COMMENT</td>
+</tr>
+<tr><td>PRIMER_INTERNAL_SALT_MONOVALENT</td>
+<td>PRIMER_INTERNAL_OLIGO_SALT_CONC</td>
+</tr>
+<tr><td>PRIMER_INTERNAL_SALT_DIVALENT</td>
+<td>PRIMER_INTERNAL_OLIGO_DIVALENT_CONC</td>
+</tr>
+<tr><td>PRIMER_INTERNAL_WT_SELF_ANY</td>
+<td>PRIMER_IO_WT_COMPL_ANY</td>
+</tr>
+<tr><td>PRIMER_INTERNAL_WT_SELF_END</td>
+<td>PRIMER_IO_WT_COMPL_END</td>
+</tr>
+<tr><td>PRIMER_INTERNAL_MAX_NS_ACCEPTED</td>
+<td>PRIMER_INTERNAL_OLIGO_NUM_NS</td>
+</tr>
+<tr><td>PRIMER_INTERNAL_MAX_SELF_ANY</td>
+<td>PRIMER_INTERNAL_OLIGO_SELF_ANY</td>
+</tr>
+<tr><td>PRIMER_INTERNAL_MAX_SELF_END</td>
+<td>PRIMER_INTERNAL_OLIGO_SELF_END</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="the-following-tags-internal-oligo-is-replaced-by-internal">
+<h3>3.4.3 The following tags INTERNAL_OLIGO is replaced by INTERNAL:<a class="headerlink" href="#the-following-tags-internal-oligo-is-replaced-by-internal" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="40%" />
+<col width="60%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>PRIMER_INTERNAL_OPT_SIZE</td>
+<td>PRIMER_INTERNAL_OLIGO_OPT_SIZE</td>
+</tr>
+<tr><td>PRIMER_INTERNAL_MIN_SIZE</td>
+<td>PRIMER_INTERNAL_OLIGO_MIN_SIZE</td>
+</tr>
+<tr><td>PRIMER_INTERNAL_MAX_SIZE</td>
+<td>PRIMER_INTERNAL_OLIGO_MAX_SIZE</td>
+</tr>
+<tr><td>PRIMER_INTERNAL_OPT_TM</td>
+<td>PRIMER_INTERNAL_OLIGO_OPT_TM</td>
+</tr>
+<tr><td>PRIMER_INTERNAL_MIN_TM</td>
+<td>PRIMER_INTERNAL_OLIGO_MIN_TM</td>
+</tr>
+<tr><td>PRIMER_INTERNAL_MAX_TM</td>
+<td>PRIMER_INTERNAL_OLIGO_MAX_TM</td>
+</tr>
+<tr><td>PRIMER_INTERNAL_MIN_GC</td>
+<td>PRIMER_INTERNAL_OLIGO_MIN_GC</td>
+</tr>
+<tr><td>PRIMER_INTERNAL_OPT_GC_PERCENT</td>
+<td>PRIMER_INTERNAL_OLIGO_OPT_GC_PERCENT</td>
+</tr>
+<tr><td>PRIMER_INTERNAL_MAX_GC</td>
+<td>PRIMER_INTERNAL_OLIGO_MAX_GC</td>
+</tr>
+<tr><td>PRIMER_INTERNAL_DNTP_CONC</td>
+<td>PRIMER_INTERNAL_OLIGO_DNTP_CONC</td>
+</tr>
+<tr><td>PRIMER_INTERNAL_DNA_CONC</td>
+<td>PRIMER_INTERNAL_OLIGO_DNA_CONC</td>
+</tr>
+<tr><td>PRIMER_INTERNAL_MAX_POLY_X</td>
+<td>PRIMER_INTERNAL_OLIGO_MAX_POLY_X</td>
+</tr>
+<tr><td>PRIMER_INTERNAL_MISHYB_LIBRARY</td>
+<td>PRIMER_INTERNAL_OLIGO_MISHYB_LIBRARY</td>
+</tr>
+<tr><td>PRIMER_INTERNAL_MIN_QUALITY</td>
+<td>PRIMER_INTERNAL_OLIGO_MIN_QUALITY</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="the-following-tags-io-is-replaced-by-internal">
+<h3>3.4.4 The following tags IO is replaced by INTERNAL:<a class="headerlink" href="#the-following-tags-io-is-replaced-by-internal" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="40%" />
+<col width="60%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>PRIMER_INTERNAL_WT_TM_GT</td>
+<td>PRIMER_IO_WT_TM_GT</td>
+</tr>
+<tr><td>PRIMER_INTERNAL_WT_TM_LT</td>
+<td>PRIMER_IO_WT_TM_LT</td>
+</tr>
+<tr><td>PRIMER_INTERNAL_WT_SIZE_LT</td>
+<td>PRIMER_IO_WT_SIZE_LT</td>
+</tr>
+<tr><td>PRIMER_INTERNAL_WT_SIZE_GT</td>
+<td>PRIMER_IO_WT_SIZE_GT</td>
+</tr>
+<tr><td>PRIMER_INTERNAL_WT_GC_PERCENT_LT</td>
+<td>PRIMER_IO_WT_GC_PERCENT_LT</td>
+</tr>
+<tr><td>PRIMER_INTERNAL_WT_GC_PERCENT_GT</td>
+<td>PRIMER_IO_WT_GC_PERCENT_GT</td>
+</tr>
+<tr><td>PRIMER_INTERNAL_WT_NUM_NS</td>
+<td>PRIMER_IO_WT_NUM_NS</td>
+</tr>
+<tr><td>PRIMER_INTERNAL_WT_SEQ_QUAL</td>
+<td>PRIMER_IO_WT_SEQ_QUAL</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="output-tags">
+<h3>3.4.5 OUTPUT TAGS:<a class="headerlink" href="#output-tags" title="Permalink to this headline">¶</a></h3>
+<p>There are three big changes on the output:
+- INTERNAL_OLIGO is now replaced by INTERNAL.
+- The first version is numbered 0.
+- The &#8220;PRODUCT&#8221; tags are renamed
+- The errors are modified
+- Errors caused by a specific primer are given as PRIMER_LEFT_4_PROBLEMS</p>
+<p>Now all primer related output follows the rule: PRIMER_{LEFT,RIGHT,INTERNAL,PAIR}_&lt;j&gt;_&lt;tag_name&gt;. where &lt;j&gt; is an integer from 0 to n, where n is at most the value of PRIMER_NUM_RETURN - 1.</p>
+<p>This allows easy scripting by using the underscores _ to split the name. The first part is PRIMER, the second the type of oligo or pair parameters, the third is always a number, starting at 0 and the rest is used by the tags.</p>
+<p>That affects also (shown for output number 4):</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="41%" />
+<col width="59%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head"><strong>NEW VERSION</strong></th>
+<th class="head"><strong>OLD VERSION</strong></th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>PRIMER_PAIR_4_PENALTY</td>
+<td>PRIMER_PAIR_PENALTY_4 (number moved behind PAIR)</td>
+</tr>
+<tr><td>PRIMER_PAIR_4_PRODUCT_SIZE</td>
+<td>PRIMER_PRODUCT_SIZE_4 (grouped with PAIR)</td>
+</tr>
+<tr><td>PRIMER_PAIR_4_PRODUCT_TM</td>
+<td>PRIMER_PRODUCT_TM_4 (grouped with PAIR)</td>
+</tr>
+<tr><td>PRIMER_PAIR_4_PRODUCT_TM_OLIGO_TM_DIFF</td>
+<td>PRIMER_PRODUCT_TM_OLIGO_TM_DIFF_4 (grouped with PAIR)</td>
+</tr>
+<tr><td>PRIMER_INTERNAL_EXPLAIN</td>
+<td>PRIMER_INTERNAL_OLIGO_EXPLAIN</td>
+</tr>
+<tr><td>PRIMER_LEFT_4_LIBRARY_MISPRIMING</td>
+<td>PRIMER_LEFT_4_MISPRIMING_SCORE</td>
+</tr>
+<tr><td>PRIMER_INTERNAL_4_LIBRARY_MISHYB</td>
+<td>PRIMER_INTERNAL_OLIGO_4_MISHYB_SCORE</td>
+</tr>
+<tr><td>PRIMER_RIGHT_4_LIBRARY_MISPRIMING</td>
+<td>PRIMER_RIGHT_4_MISPRIMING_SCORE</td>
+</tr>
+<tr><td>PRIMER_PAIR_4_LIBRARY_MISPRIMING</td>
+<td>PRIMER_PAIR_4_MISPRIMING_SCORE</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="tags.html" title="4. Primer3 参考手册"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="installation.html" title="2. Primer3 安装"
+             >previous</a> |</li>
+        <li><a href="index.html">Primer3 v2.2.2 入门教程 v0.1 beta documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010, Mark Renton.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0b2.
+    </div>
+  </body>
+</html>

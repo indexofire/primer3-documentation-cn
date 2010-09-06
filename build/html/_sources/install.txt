@@ -1,0 +1,5 @@
+===========
+安装Primer3
+===========
+
+你可以在多个平台下安装Primer3，已知可以使用的有Mac OS X, Linux, FreeBSD等
