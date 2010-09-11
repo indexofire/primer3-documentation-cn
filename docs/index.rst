@@ -20,11 +20,11 @@ __ http://gallus.forestry.uga.edu/primer3/primer3.html
 .. toctree::
    :maxdepth: 2
    
-   introduction
-   installation
-   usage
-   tags
-   reference
+   introduction.rst
+   installation.rst
+   usage.rst
+   tags.rst
+   reference.rst
 
 目录和索引
 ====================
